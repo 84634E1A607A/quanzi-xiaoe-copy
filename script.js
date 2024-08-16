@@ -3,8 +3,11 @@
 // @namespace   http://tampermonkey.net/
 // @match       https://quanzi.xiaoe-tech.com/*/feed_list*
 // @grant       none
-// @version     1.0
+// @version     1.1
 // @author      Ajax
+// @description 如题
+// @downloadURL https://update.greasyfork.org/scripts/503841/%E8%A7%A3%E9%99%A4%E9%B9%85%E5%9C%88%E5%AD%90%E5%A4%8D%E5%88%B6%E9%99%90%E5%88%B6%2B%E5%8E%BB%E6%B0%B4%E5%8D%B0.user.js
+// @updateURL https://update.greasyfork.org/scripts/503841/%E8%A7%A3%E9%99%A4%E9%B9%85%E5%9C%88%E5%AD%90%E5%A4%8D%E5%88%B6%E9%99%90%E5%88%B6%2B%E5%8E%BB%E6%B0%B4%E5%8D%B0.meta.js
 // ==/UserScript==
 
 
@@ -55,5 +58,15 @@
         element.setAttribute("style", "");
         element.oncontextmenu = null;
         element.onselectstart = null;
+
+        const observer = new MutationObserver(function(mutationsList, observer) {
+            if (mutationsList[0].attributeName === "style" && element.getAttribute("style") !== "") {
+                element.setAttribute("style", "");
+                element.oncontextmenu = null;
+                element.onselectstart = null;
+            }
+        });
+
+        observer.observe(element, {attributes: true, attributeFilter: ["style"]});
     }, false, 1000, 86400);
 })();
